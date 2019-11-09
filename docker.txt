@@ -1,0 +1,124 @@
+Images - The blueprints of our application which form the basis of containers.
+Containers - Created from Docker images and run the actual application. 
+Docker Daemon - The background service running on the host that manages building, running and distributing Docker containers. 
+Docker Client - The command line tool that allows the user to interact with the daemon.
+Docker Hub - A registry of Docker images. You can think of the registry as a directory of all available Docker images.
+
+------------- COMMANDS --------------------------------------------------------------------------------------------------------
+
+
+docker pull imageName    --> download image
+docker run imageName	 --> run image in container
+
+docker ps   		--> show all current running containers
+docker ps -a		--> show all ran containers
+
+
+
+docker rm id id 	--> when you run container and when it stoped , it remains in memory , to remove git get id VIA docker ps -a
+
+docker rm $(docker ps -a -q -f status=exited)    --> delete all exited containers same as above
+		OR
+docker container prune
+
+
+
+
+
+
+
+
+
+
+sudo mkdir -p /var/www/testhtml.mubeen.ml/html
+sudo mkdir -p /var/www/jenkins.mubeen.ml/html
+sudo chown -R $USER:$USER /var/www/testhtml.mubeen.ml/html
+sudo chown -R $USER:$USER /var/www/jenkins.mubeen.ml/html
+sudo chmod -R 755 /var/www/jenkins.mubeen.ml/html
+sudo chmod -R 755 /var/www/testhtml.mubeen.ml/html
+
+sudo nano /var/www/testhtml.mubeen.ml/html/index.html
+
+<html>
+    <head>
+        <title>Welcome to testhtml.mubeen.ml !</title>
+    </head>
+    <body>
+        <h1>Success! Everything Perfect, ALHUMDOLILLAH</h1>
+    </body>
+</html>
+
+
+sudo nano /var/www/jenkins.mubeen.ml/html/index.html
+
+<html>
+    <head>
+        <title>This is for Jenkins, will be modified Later</title>
+    </head>
+    <body>
+        <h1>Success!!!</h1>
+    </body>
+</html>
+
+
+sudo nano /etc/nginx/sites-available/testhtml.mubeen.ml
+
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/testhtml.mubeen.ml/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name testhtml.mubeen.ml www.testhtml.mubeen.ml;
+
+
+        location / {
+
+                try_files $uri $uri/ =404;
+        }
+}
+
+sudo nano /etc/nginx/sites-available/jenkins.mubeen.ml
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/jenkins.mubeen.ml/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name jenkins.mubeen.ml www.jenkins.mubeen.ml;
+
+
+        location / {
+
+
+                try_files $uri $uri/ =404;
+        }
+}
+
+
+sudo ln -s /etc/nginx/sites-available/testhtml.mubeen.ml /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/jenkins.mubeen.ml /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
